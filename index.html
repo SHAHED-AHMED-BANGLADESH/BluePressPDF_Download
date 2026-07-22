@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BluePressPDF — Download</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F0FDF4;
+            color: #0F172A;
+            line-height: 1.6;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: #fff;
+            padding: 24px 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .app-icon {
+            width: 88px;
+            height: 88px;
+            border-radius: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .app-info { flex: 1; }
+        .app-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 2px;
+        }
+        .app-dev {
+            font-size: 13px;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+        .app-tagline {
+            font-size: 13px;
+            color: #64748B;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        /* Download Button */
+        .download-btn {
+            background: #0D9488;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 160px;
+            justify-content: center;
+        }
+        .download-btn:hover { background: #0F766E; }
+        .download-btn.loading {
+            background: #E2E8F0;
+            color: #475569;
+            pointer-events: none;
+        }
+        .download-btn .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #475569;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .download-btn.loading .spinner { display: inline-block; }
+        .download-btn .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: #10B981;
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Action Icons */
+        .action-icons {
+            display: flex;
+            gap: 16px;
+            margin-top: 14px;
+            align-items: center;
+        }
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #475569;
+            font-size: 11px;
+        }
+        .action-btn .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        .action-btn:hover .icon { background: #E2E8F0; }
+        .action-btn.liked .icon { background: #FEF2F2; }
+        .action-btn.liked { color: #EF4444; }
+
+        /* ===== STATS BAR ===== */
+        .stats {
+            background: #fff;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 2px;
+        }
+
+        /* ===== SCREENSHOTS ===== */
+        .screenshots-section {
+            background: #fff;
+            padding: 20px 0;
+            margin-top: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0F172A;
+        }
+        .screenshots-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 0 20px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .screenshots-scroll::-webkit-scrollbar { display: none; }
+        .screenshot {
+            flex-shrink: 0;
+            width: 140px;
+            height: 280px;
+            border-radius: 12px;
+            background: #F1F5F9;
+            scroll-snap-align: start;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            background: #fff;
+            padding: 20px;
+            margin-top: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .about-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .about-title-group {}
+        .about-subtitle {
+            font-size: 13px;
+            color: #64748B;
+            margin-top: 2px;
+        }
+        .about-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #F0FDF4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0D9488;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        .about-arrow:hover { background: #DCFCE7; }
+        .about-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ===== HOW TO DOWNLOAD ===== */
+        .howto-section {
+            background: #fff;
+            padding: 20px;
+            margin-top: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .howto-steps {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #0D9488;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .step-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+            padding-top: 4px;
+        }
+
+        /* ===== DATA SAFETY ===== */
+        .safety-section {
+            background: #fff;
+            padding: 20px;
+            margin-top: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .safety-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .safety-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+        .safety-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #F0FDF4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .safety-text {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.4;
+        }
+        .safety-text strong {
+            display: block;
+            color: #0F172A;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        .privacy-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+            color: #0D9488;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .privacy-link:hover { text-decoration: underline; }
+
+        /* ===== QR CODE ===== */
+        .qr-section {
+            background: #fff;
+            padding: 24px 20px;
+            margin-top: 8px;
+            text-align: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .qr-code {
+            width: 160px;
+            height: 160px;
+            border-radius: 16px;
+            margin: 0 auto 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #F1F5F9;
+        }
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .qr-hint {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #94A3B8;
+        }
+        .footer p { margin-bottom: 4px; }
+
+        /* ===== DOWNLOAD OVERLAY ===== */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .overlay.active { display: flex; }
+        .overlay-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .overlay-card .app-icon {
+            margin: 0 auto 16px;
+            width: 64px;
+            height: 64px;
+        }
+        .overlay-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .overlay-card p {
+            font-size: 13px;
+            color: #64748B;
+            margin-bottom: 20px;
+        }
+        .overlay-progress {
+            width: 100%;
+            height: 4px;
+            background: #E2E8F0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .overlay-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #0D9488;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .overlay-size {
+            font-size: 12px;
+            color: #64748B;
+        }
+        .overlay-cancel {
+            margin-top: 16px;
+            color: #0D9488;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .hero { padding: 20px 16px; gap: 16px; }
+            .app-name { font-size: 20px; }
+            .screenshot { width: 120px; height: 240px; }
+            .safety-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="app-icon">
+            <img src="icon.png" alt="BluePressPDF Icon">
+        </div>
+        <div class="app-info">
+            <h1 class="app-name">BluePressPDF</h1>
+            <p class="app-dev">By SAA Studio</p>
+            <p class="app-tagline">All-in-one PDF toolkit. 7 tools, OCR, signature. 100% offline. No ads.</p>
+            <button class="download-btn" id="downloadBtn" onclick="startDownload()">
+                <span class="spinner"></span>
+                <span class="btn-text">Download</span>
+                <span class="progress-bar" id="btnProgress"></span>
+            </button>
+            <div class="action-icons">
+                <button class="action-btn" id="likeBtn" onclick="toggleLike()">
+                    <span class="icon">♡</span>
+                    <span>Love</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-value">59 MB</div>
+            <div class="stat-label">Size</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1K+</div>
+            <div class="stat-label">Downloads</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">Android 6+</div>
+            <div class="stat-label">Requires</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">Free</div>
+            <div class="stat-label">Price</div>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS -->
+    <section class="screenshots-section">
+        <div class="section-header">
+            <h2 class="section-title">Screenshots</h2>
+        </div>
+        <div class="screenshots-scroll">
+            <div class="screenshot"><img src="ss1.png" alt="Screenshot 1"></div>
+            <div class="screenshot"><img src="ss2.png" alt="Screenshot 2"></div>
+            <div class="screenshot"><img src="ss3.png" alt="Screenshot 3"></div>
+            <div class="screenshot"><img src="ss4.png" alt="Screenshot 4"></div>
+            <div class="screenshot"><img src="ss5.png" alt="Screenshot 5"></div>
+            <div class="screenshot"><img src="ss6.png" alt="Screenshot 6"></div>
+            <div class="screenshot"><img src="ss7.png" alt="Screenshot 7"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+        <div class="about-header">
+            <div class="about-title-group">
+                <h2 class="section-title">About this app</h2>
+                <p class="about-subtitle">All your tools in one place</p>
+            </div>
+            <a href="about.html" class="about-arrow">→</a>
+        </div>
+        <p class="about-text">
+            BluePress PDF is a powerful, lightweight PDF utility app designed for Android users who need professional document tools without internet connectivity, subscriptions, or intrusive advertisements. Convert images to PDF, scan documents, merge files, compress PDFs, add digital signatures, extract text with OCR in 6 languages, and protect documents with password encryption — all completely offline.
+        </p>
+    </section>
+
+    <!-- HOW TO DOWNLOAD -->
+    <section class="howto-section">
+        <h2 class="section-title">How to download</h2>
+        <div class="howto-steps">
+            <div class="step">
+                <span class="step-num">1</span>
+                <p class="step-text">Tap the <strong>Download</strong> button above. The APK file will start downloading.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <p class="step-text">Once downloaded, open the notification or go to your <strong>Downloads</strong> folder.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <p class="step-text">Tap the APK file. If prompted, allow <strong>"Install from this source"</strong> in settings.</p>
+            </div>
+            <div class="step">
+                <span class="step-num">4</span>
+                <p class="step-text">Tap <strong>Install</strong> and wait for the installation to complete. Open and enjoy!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DATA SAFETY -->
+    <section class="safety-section">
+        <h2 class="section-title">Data safety</h2>
+        <div class="safety-grid">
+            <div class="safety-item">
+                <span class="safety-icon">🔒</span>
+                <p class="safety-text"><strong>No data shared</strong>Your data stays on your device</p>
+            </div>
+            <div class="safety-item">
+                <span class="safety-icon">📴</span>
+                <p class="safety-text"><strong>100% offline</strong>No internet connection needed</p>
+            </div>
+            <div class="safety-item">
+                <span class="safety-icon">🚫</span>
+                <p class="safety-text"><strong>No ads</strong>Clean, distraction-free experience</p>
+            </div>
+            <div class="safety-item">
+                <span class="safety-icon">🛡️</span>
+                <p class="safety-text"><strong>Zero tracking</strong>No analytics or data collection</p>
+            </div>
+        </div>
+        <a href="https://shahed-ahmed-bangladesh.github.io/bluepresspdf-legal/privacy-policy.html" class="privacy-link" target="_blank">
+            View privacy policy →
+        </a>
+    </section>
+
+    <!-- QR CODE -->
+    <section class="qr-section">
+        <h2 class="section-title">Scan to download</h2>
+        <div class="qr-code">
+            <img src="qr.png" alt="QR Code">
+        </div>
+        <p class="qr-hint">Point your phone camera at this code</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>BluePressPDF by SAA Studio</p>
+        <p>Version 2.0.0 • Updated July 2026</p>
+    </footer>
+
+    <!-- DOWNLOAD OVERLAY -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-card">
+            <div class="app-icon">
+                <img src="icon.png" alt="BluePressPDF">
+            </div>
+            <h3>BluePressPDF</h3>
+            <p>Downloading APK...</p>
+            <div class="overlay-progress">
+                <div class="overlay-progress-fill" id="overlayFill"></div>
+            </div>
+            <div class="overlay-size" id="overlaySize">0 MB / 59 MB</div>
+            <button class="overlay-cancel" onclick="cancelDownload()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let downloadInterval;
+
+        function startDownload() {
+            const btn = document.getElementById('downloadBtn');
+            const overlay = document.getElementById('overlay');
+            const fill = document.getElementById('overlayFill');
+            const size = document.getElementById('overlaySize');
+            const btnProgress = document.getElementById('btnProgress');
+
+            btn.classList.add('loading');
+            btn.querySelector('.btn-text').textContent = 'Downloading...';
+
+            setTimeout(() => {
+                overlay.classList.add('active');
+                let progress = 0;
+                downloadInterval = setInterval(() => {
+                    progress += Math.random() * 12 + 5;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(downloadInterval);
+                        size.textContent = '59 MB / 59 MB';
+                        setTimeout(() => {
+                            window.location.href = 'https://github.com/SHAHED-AHMED-BANGLADESH/BluePressPDF_Download/releases/download/v2.0.0/BluePressPDF_v2.0.0.apk';
+                            overlay.classList.remove('active');
+                            btn.classList.remove('loading');
+                            btn.querySelector('.btn-text').textContent = 'Install';
+                            btn.style.background = '#10B981';
+                            btn.onclick = function() {
+                                window.location.href = 'https://github.com/SHAHED-AHMED-BANGLADESH/BluePressPDF_Download/releases/download/v2.0.0/BluePressPDF_v2.0.0.apk';
+                            };
+                        }, 600);
+                    }
+                    fill.style.width = progress + '%';
+                    btnProgress.style.width = progress + '%';
+                    size.textContent = Math.round(progress * 0.59) + ' MB / 59 MB';
+                }, 250);
+            }, 500);
+        }
+
+        function cancelDownload() {
+            clearInterval(downloadInterval);
+            document.getElementById('overlay').classList.remove('active');
+            const btn = document.getElementById('downloadBtn');
+            btn.classList.remove('loading');
+            btn.querySelector('.btn-text').textContent = 'Download';
+            document.getElementById('btnProgress').style.width = '0%';
+        }
+
+        function toggleLike() {
+            const btn = document.getElementById('likeBtn');
+            const icon = btn.querySelector('.icon');
+            btn.classList.toggle('liked');
+            icon.textContent = btn.classList.contains('liked') ? '♥' : '♡';
+        }
+    </script>
+
+</body>
+</html>

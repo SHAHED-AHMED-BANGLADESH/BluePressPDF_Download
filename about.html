@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About BluePressPDF</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F0FDF4;
+            color: #0F172A;
+            line-height: 1.7;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #0F172A;
+            font-size: 18px;
+            transition: background 0.2s;
+        }
+        .back-btn:hover { background: #E2E8F0; }
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Content */
+        .content {
+            background: #fff;
+            padding: 24px 20px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .app-header-info h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .app-header-info p {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0D9488;
+            margin: 28px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #F0FDF4;
+        }
+        h2:first-of-type { margin-top: 0; }
+
+        p {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 16px;
+        }
+        ul li {
+            font-size: 14px;
+            color: #475569;
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+        }
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: #0D9488;
+            font-weight: bold;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .feature-card {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .feature-card .emoji {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .feature-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+        .feature-card p {
+            font-size: 12px;
+            color: #64748B;
+            margin: 0;
+        }
+
+        .highlight-box {
+            background: #F0FDF4;
+            border-left: 4px solid #0D9488;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        .highlight-box p {
+            margin: 0;
+            color: #0F172A;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            font-size: 12px;
+            color: #94A3B8;
+        }
+        .footer a {
+            color: #0D9488;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="index.html" class="back-btn">←</a>
+        <span class="header-title">About this app</span>
+    </header>
+
+    <div class="content">
+        <div class="app-header">
+            <div class="app-icon">
+                <img src="icon.png" alt="BluePressPDF">
+            </div>
+            <div class="app-header-info">
+                <h1>BluePressPDF</h1>
+                <p>By SAA Studio • Version 2.0.0</p>
+            </div>
+        </div>
+
+        <p>BluePress PDF is a powerful, lightweight PDF utility app designed for Android users who need professional document tools without internet connectivity, subscriptions, or intrusive advertisements.</p>
+
+        <h2>7 Core Tools</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="emoji">🖼️</div>
+                <h4>Image to PDF</h4>
+                <p>Convert photos to high-quality PDFs</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">📷</div>
+                <h4>Smart Scan</h4>
+                <p>Auto-detect edges, enhance scans</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">🔄</div>
+                <h4>PDF to Images</h4>
+                <p>Extract pages as JPG or PNG</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">🔗</div>
+                <h4>Merge PDFs</h4>
+                <p>Combine multiple files</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">✏️</div>
+                <h4>Edit PDF</h4>
+                <p>Annotate, highlight, draw</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">🗜️</div>
+                <h4>Compress PDF</h4>
+                <p>Reduce size up to 90%</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">🔒</div>
+                <h4>Secure Lock</h4>
+                <p>Password protect with AES</p>
+            </div>
+            <div class="feature-card">
+                <div class="emoji">✍️</div>
+                <h4>Digital Signature</h4>
+                <p>Sign with finger or stylus</p>
+            </div>
+        </div>
+
+        <h2>OCR Text Extraction</h2>
+        <p>Extract editable text from images and scanned PDFs using advanced optical character recognition. Supports 6 languages:</p>
+        <ul>
+            <li>English</li>
+            <li>Latin (Spanish, French, German, Italian, Portuguese)</li>
+            <li>Chinese (Simplified & Traditional)</li>
+            <li>Hindi (Devanagari script)</li>
+            <li>Japanese (Kanji, Hiragana, Katakana)</li>
+            <li>Korean (Hangul)</li>
+        </ul>
+
+        <h2>Why BluePress?</h2>
+        <div class="highlight-box">
+            <p>🔒 100% Offline — All processing happens on your device. No internet required.</p>
+        </div>
+        <div class="highlight-box">
+            <p>🚫 No Ads — Clean, distraction-free interface. No banners or pop-ups.</p>
+        </div>
+        <div class="highlight-box">
+            <p>⚡ Lightning Fast — Optimized for speed. Under 60MB download size.</p>
+        </div>
+        <div class="highlight-box">
+            <p>💰 Completely Free — No subscriptions, no in-app purchases.</p>
+        </div>
+        <div class="highlight-box">
+            <p>🔐 Privacy First — Zero data collection. No analytics. No cloud uploads.</p>
+        </div>
+        <div class="highlight-box">
+            <p>🎨 Material Design — Modern interface with dark mode support.</p>
+        </div>
+
+        <h2>Perfect For</h2>
+        <ul>
+            <li>Students scanning notes and textbooks</li>
+            <li>Professionals managing contracts and invoices</li>
+            <li>Freelancers editing client documents</li>
+            <li>Travelers organizing tickets and reservations</li>
+            <li>Anyone who needs PDF tools without complexity</li>
+        </ul>
+
+        <h2>System Requirements</h2>
+        <ul>
+            <li>Android 6.0 (Marshmallow) or higher</li>
+            <li>Minimum 60MB free storage</li>
+            <li>Camera permission for scanning</li>
+            <li>Storage permission for file operations</li>
+        </ul>
+
+        <h2>Technical Specifications</h2>
+        <ul>
+            <li>Built with Android SDK, Java, and Kotlin</li>
+            <li>OpenCV-powered image processing</li>
+            <li>Tesseract OCR engine for text recognition</li>
+            <li>PDFBox library for PDF manipulation</li>
+            <li>Room database for local file management</li>
+            <li>Material Design 3 components</li>
+        </ul>
+
+        <h2>Roadmap</h2>
+        <p>Coming in future updates:</p>
+        <ul>
+            <li>Additional OCR languages (Arabic, Thai, Russian, Vietnamese)</li>
+            <li>Cloud backup with end-to-end encryption</li>
+            <li>Batch processing for multiple files</li>
+            <li>PDF form filling and field editing</li>
+            <li>iOS version (based on user demand)</li>
+        </ul>
+    </div>
+
+    <footer class="footer">
+        <p>📧 Support: <a href="mailto:support.saa.play@gmail.com">support.saa.play@gmail.com</a></p>
+        <p>🌐 Developer: SAA STUDIO</p>
+        <p>🇧🇩 Made with care in Bangladesh</p>
+        <p style="margin-top: 12px;"><a href="https://shahed-ahmed-bangladesh.github.io/bluepresspdf-legal/privacy-policy.html" target="_blank">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>
